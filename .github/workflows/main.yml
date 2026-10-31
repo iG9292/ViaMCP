@@ -19,11 +19,8 @@ jobs:
           java-version: 8
           # Eliminamos la línea de caché temporalmente para evitar el error de archivos no encontrados
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew
-
       - name: Build with Gradle
-        run: ./gradlew clean build --no-daemon
+        run: gradle clean build --no-daemon
 
       - name: Organize output artifact
         run: |
