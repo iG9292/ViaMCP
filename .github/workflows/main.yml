@@ -1,0 +1,46 @@
+name: Build ViaMCP
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Setup Java 8 (Zulu)
+        uses: actions/setup-java@v4
+        with:
+          distribution: "zulu"
+          java-version: 8
+          cache: "gradle"
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew clean build --no-daemon
+
+      - name: Organize output artifact
+        run: |
+          mkdir -p build/output
+          JAR_FILE=$(find build/libs -name "*.jar" ! -name "*-sources.jar" ! -name "*-javadoc.jar" ! -name "*-dev.jar" | head -n 1)
+          cp "$JAR_FILE" build/output/ViaMCP.jar
+
+      - name: Upload artifact
+        id: upload-step
+        uses: actions/upload-artifact@v4
+        with:
+          name: ViaMCP-Jar
+          path: build/output/ViaMCP.jar
+
+      - name: Show artifact status
+        run: |
+          echo "===================================================="
+          echo "ViaMCP has been built successfully!"
+          echo "${{ steps.upload-step.outputs.artifact-url }}"
+          echo "===================================================="
