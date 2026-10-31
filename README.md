@@ -1,6 +1,8 @@
 
 # ViaMCP
-ViaVersion VersionSwitcher for Minecraft Coder Pack (MCP)
+ViaVersion VersionSwitcher for Minecraft Coder Pack (MCP) 
+
+Guys im so dumb trying to make this a downloadable file when this was a source code-
 
 ## About
 If you are interested in the project, or you have issues / suggestions, feel free to join our discord!
